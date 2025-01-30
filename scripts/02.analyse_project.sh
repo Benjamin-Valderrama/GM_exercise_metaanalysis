@@ -103,14 +103,14 @@ if [ "$run_all" = true ] || [ "$run_dada2" = true ]; then
         echo "PROGRESS -- Performing paired end taxonomic profiling with DADA2."
         eval "$(micromamba shell hook --shell bash)"
         micromamba activate rbase44
-        Rscript ${ANALYSIS_SCRIPTS}/PE_dada2.R ${study_folder} > ${study_folder}/nohups/dada2.log
+        Rscript ${ANALYSIS_SCRIPTS}/PE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     elif [ "$library_layout" = single_end ]; then
         # run dada2 in single end mode
         echo "PROGRESS -- Performing single end taxonomic profiling with DADA2."
 	eval "$(micromamba shell hook --shell bash)"
 	micromamba activate rbase44
-        Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/nohups/dada2.log
+        Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     else
 	echo "[ERROR] -- Library layout undetermined. Project can't be included."
@@ -140,7 +140,7 @@ elif [[ $library_layout == "paired_end" ]] && [[ $quality_check != "PASSED" ]]; 
 
     eval "$(micromamba shell hook --shell bash)"
     micromamba activate rbase44
-    Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/nohups/dada2.log
+    Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     # Check the results of the single end re run
     quality_check_rerun=$( Rscript ${ANALYSIS_SCRIPTS}/quality_check_dada2.R ${study_folder} ${library_layout})
@@ -168,7 +168,7 @@ if [[ $quality_check == "PASSED" ]] || [[ $quality_check_rerun == "PASSED" ]]; t
 
     eval "$(micromamba shell hook --shell bash)"
     micromamba activate rbase44
-    Rscript ${ANALYSIS_SCRIPTS}/filter_samples.R ${study_folder} ${library_layout} > ${study_folder}/nohups/filter_samples.log
+    Rscript ${ANALYSIS_SCRIPTS}/filter_samples.R ${study_folder} ${library_layout} > ${study_folder}/logs/filter_samples.log
 fi
 
 
@@ -178,7 +178,7 @@ if [[ $quality_check == "PASSED" ]] || [[ $quality_check_rerun == "PASSED" ]]; t
 
     eval "$(micromamba shell hook --shell bash)"
     micromamba activate rbase44
-    Rscript ${ANALYSIS_SCRIPTS}/collapse_asv_to_genus.R ${study_folder} > ${study_folder}/nohups/collapse_count_table.log
+    Rscript ${ANALYSIS_SCRIPTS}/collapse_asv_to_genus.R ${study_folder} > ${study_folder}/logs/collapse_count_table.log
 
    echo "PROGRESS -- ${study_folder} successfully analysed"
 fi
@@ -193,7 +193,7 @@ if [ "$run_all" = true ] || [ "$run_picrust2" = true ]; then
 #    eval "$(micromamba shell hook --shell bash)"
 #    micromamba activate picrust2
     # The folder with the output of PICRUSt2 is generated within the following call
-    bash ${ANALYSIS_SCRIPTS}/PICRUSt2.sh ${study_folder} > ${study_folder}/nohups/picrust2.out
+    bash ${ANALYSIS_SCRIPTS}/PICRUSt2.sh ${study_folder} > ${study_folder}/logs/picrust2.out
 fi
 
 
@@ -203,7 +203,7 @@ if [ "$run_all" = true ] || [ "$run_modules" = true ]; then
     # CALCULATE THE MODULES USING THE FUNCTIONAL ANNOTATION GENERATED ABOVE
     echo "PROGRESS -- Calculating modules using the KO-based functional profiling."
     mkdir ${study_folder}/03.modules
-    bash ${ANALYSIS_SCRIPTS}/run_modules.sh ${study_folder}/02.picrust2/output/KO_metagenome_out ${study_folder}/03.modules -m GBMs,GMMs > ${study_folder}/nohups/omixer.out
+    bash ${ANALYSIS_SCRIPTS}/run_modules.sh ${study_folder}/02.picrust2/output/KO_metagenome_out ${study_folder}/03.modules -m GBMs,GMMs > ${study_folder}/logs/omixer.out
 fi
 
 
