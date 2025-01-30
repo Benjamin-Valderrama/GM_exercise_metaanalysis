@@ -10,7 +10,7 @@ output=$2
 
 
 # folder with the nohups for all the projects
-mkdir -p ${output}/nohups
+mkdir -p ${output}/logs
 
 
 # STEP 1 -- Data download:
