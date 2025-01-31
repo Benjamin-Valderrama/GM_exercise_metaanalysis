@@ -3,8 +3,8 @@
 study_folder_path=$1
 
 # activate PICRUSt2 environment
-eval "$(micromamba shell hook --shell bash)"
-micromamba activate picrust2
+#eval "$(micromamba shell hook --shell bash)"
+#micromamba activate picrust2
 
 # run PICRUSt2 pipeline
 picrust2_pipeline.py \
@@ -17,4 +17,4 @@ picrust2_pipeline.py \
 	--stratified
 
 # deactivate conda environment
-micromamba deactivate
+#micromamba deactivate
