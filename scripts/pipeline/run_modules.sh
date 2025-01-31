@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPTS_FOLDER="$(dirname "$(realpath "$0")")"
+
 # Empty arrays to store elements and positional arguments
 modules=()
 positional_args=()
@@ -25,8 +27,8 @@ output="${positional_args[1]}"
 
 
 #source /home/miniconda/miniconda3/bin/activate rbase41
-eval "$(micromamba shell hook --shell bash)"
-micromamba activate rbase44
+#eval "$(micromamba shell hook --shell bash)"
+#micromamba activate rbase44
 
 # Iterate through the elements using a for loop and echo each element
 for module in "${modules[@]}"; do
@@ -34,13 +36,13 @@ for module in "${modules[@]}"; do
     # Calculate stratified modules
     if [ -e "$input/pred_metagenome_contrib.tsv.gz" ]; then
         echo "RUN STRATIFIED ANALYSIS"
-        Rscript /home/bvalderrama/scripts/16s_scripts/stratified_omixer.R $input $output $module
+        Rscript ${SCRIPTS_FOLDER}/stratified_omixer.R $input $output $module
     fi
 
     # Calculate unstratified modules
     if [ -e "$input/pred_metagenome_unstrat.tsv.gz" ]; then
         echo "RUN UNSTRATIFIED ANALYSIS"
-        Rscript /home/bvalderrama/scripts/16s_scripts/unstratified_omixer.R $input $output $module
+        Rscript ${SCRIPTS_FOLDER}/unstratified_omixer.R $input $output $module
     fi
 
 done
