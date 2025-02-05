@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# activate micromamba environment. Comment out if running in other machine
+eval "$(micromamba shell hook --shell bash)"
+micromamba activate samba
+
+
 # Workflow arguments: Default values
 study_folder=""
 accession_number=""
@@ -101,15 +106,15 @@ if [ "$run_all" = true ] || [ "$run_dada2" = true ]; then
     if [ "$library_layout" = paired_end ]; then
         # run dada2 in pair end mode
         echo "PROGRESS -- Performing paired end taxonomic profiling with DADA2."
-        eval "$(micromamba shell hook --shell bash)"
-        micromamba activate rbase44
+#        eval "$(micromamba shell hook --shell bash)"
+#        micromamba activate rbase44
         Rscript ${ANALYSIS_SCRIPTS}/PE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     elif [ "$library_layout" = single_end ]; then
         # run dada2 in single end mode
         echo "PROGRESS -- Performing single end taxonomic profiling with DADA2."
-	eval "$(micromamba shell hook --shell bash)"
-	micromamba activate rbase44
+#	eval "$(micromamba shell hook --shell bash)"
+#	micromamba activate rbase44
         Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     else
@@ -138,8 +143,8 @@ elif [[ $library_layout == "paired_end" ]] && [[ $quality_check != "PASSED" ]]; 
 
     echo "PROGRESS -- Re-analysing project as : ${library_layout}"
 
-    eval "$(micromamba shell hook --shell bash)"
-    micromamba activate rbase44
+#    eval "$(micromamba shell hook --shell bash)"
+#    micromamba activate rbase44
     Rscript ${ANALYSIS_SCRIPTS}/SE_dada2.R ${study_folder} > ${study_folder}/logs/dada2.log
 
     # Check the results of the single end re run
@@ -166,8 +171,8 @@ fi
 if [[ $quality_check == "PASSED" ]] || [[ $quality_check_rerun == "PASSED" ]]; then
     echo "PROGRESS -- Removing samples with low quality from project."
 
-    eval "$(micromamba shell hook --shell bash)"
-    micromamba activate rbase44
+#    eval "$(micromamba shell hook --shell bash)"
+#    micromamba activate rbase44
     Rscript ${ANALYSIS_SCRIPTS}/filter_samples.R ${study_folder} ${library_layout} > ${study_folder}/logs/filter_samples.log
 fi
 
@@ -176,8 +181,8 @@ fi
 if [[ $quality_check == "PASSED" ]] || [[ $quality_check_rerun == "PASSED" ]]; then
     echo "PROGRESS -- Collapsing ASVs from clean count table to genus"
 
-    eval "$(micromamba shell hook --shell bash)"
-    micromamba activate rbase44
+#    eval "$(micromamba shell hook --shell bash)"
+#    micromamba activate rbase44
     Rscript ${ANALYSIS_SCRIPTS}/collapse_asv_to_genus.R ${study_folder} > ${study_folder}/logs/collapse_count_table.log
 
    echo "PROGRESS -- ${study_folder} successfully analysed"

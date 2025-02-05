@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # activate environment
-# eval "$(micromamba shell hook --shell bash)" ; micromamba activate samba
+eval "$(micromamba shell hook --shell bash)" ; micromamba activate samba
 
 # read input file in (has 'bioproject' and 'run accession' codes)
 input=$1

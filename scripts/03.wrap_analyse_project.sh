@@ -72,7 +72,7 @@ cut -f2 $input | tail -n +2 | uniq | while read -r bioproject; do
     # lunch the analysis of the projects
     # while overall progress of the analysis goes to ${output}/nohups/${bioproject}.out,
     # step-specific logs can be found in ${output}/${bioproject}/nohups/
-    bash ${SCRIPTS_FOLDER}/02.analyse_project.sh -s ${output}/${bioproject} --run_dada2 --run_picrust2 --run_modules >> ${output}/logs/${bioproject}.log &
+    bash ${SCRIPTS_FOLDER}/02.analyse_project.sh -s ${output}/${bioproject} --run_dada2 --run_picrust2 --run_modules >> ${output}/logs/${bioproject}.log 2>&1 &
 
     # save the PID of the process and add that to the log file to keep track of the analysis steps
     last_pid=$!
